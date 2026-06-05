@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Manager — Angamba Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f5f1ea;--ink:#1f1f1f;--olive:#59624f;--muted:#746c61;--sand:#ddd2c2}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--paper);color:var(--ink);padding:0}
+.header{background:var(--ink);color:var(--paper);padding:2rem 6vw;text-align:center}
+.header h1{font-family:Cormorant Garamond,serif;font-size:2rem;font-weight:700;margin:0}
+.header p{font-size:.85rem;opacity:.7;margin:.5rem 0 0}
+.tabs{display:flex;gap:.25rem;justify-content:center;margin-bottom:1rem}
+.tab{padding:.35rem 1.25rem;border-radius:50px;font-size:.8rem;font-weight:600;text-decoration:none;color:var(--paper);border:1px solid rgba(255,255,255,.3);transition:all .2s}
+.tab:hover{border-color:var(--paper)}
+.tab.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.container{max-width:1200px;margin:0 auto;padding:2rem 6vw}
+.group{margin-bottom:2.5rem}
+.group-title{font-family:Cormorant Garamond,serif;font-size:1.4rem;font-weight:700;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--sand)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.card{padding:1rem;border-radius:1rem;border:1px solid rgba(31,31,31,.12);background:rgba(255,255,255,.5)}
+.preview{width:100%;aspect-ratio:16/9;border-radius:.6rem;overflow:hidden;margin-bottom:.6rem;background:var(--sand)}
+.preview img{width:100%;height:100%;object-fit:cover;display:block}
+.info{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;font-size:.85rem}
+.key{font-size:.65rem;color:var(--muted);font-family:monospace}
+.row{display:flex;gap:.5rem;margin-bottom:.5rem}
+.input{flex:1;padding:.5rem .7rem;border-radius:.4rem;border:1px solid rgba(31,31,31,.2);background:var(--paper);color:var(--ink);font-size:.8rem;font-family:monospace;min-width:0}
+.input:focus{outline:none;border-color:var(--olive)}
+.upload-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem .7rem;border-radius:.4rem;border:1px solid rgba(31,31,31,.2);background:rgba(255,255,255,.6);color:var(--muted);font-size:.75rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
+.upload-btn:hover{border-color:var(--olive);color:var(--olive)}
+.upload-btn input{display:none}
+.actions{display:flex;align-items:center;gap:.5rem}
+.btn{padding:.35rem 1rem;border-radius:.4rem;border:none;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-save{background:var(--olive);color:var(--paper)}
+.btn-save:hover{opacity:.85}
+.btn-reset{background:transparent;color:var(--muted);border:1px solid rgba(31,31,31,.2)}
+.btn-reset:hover{border-color:#c44;color:#c44}
+.badge{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;padding:.2rem .5rem;border-radius:4px;background:rgba(89,98,79,.15);color:var(--olive);margin-left:auto}
+.badge-default{background:rgba(31,31,31,.05);color:var(--muted)}
+.footer{display:flex;flex-direction:column;align-items:center;gap:.75rem;padding:2rem 0 4rem}
+.footer p{font-size:.75rem;color:var(--muted);margin:0}
+.login{display:flex;justify-content:center;align-items:center;min-height:80vh;padding:2rem}
+.login-card{max-width:400px;width:100%;padding:2.5rem 2rem;text-align:center;background:rgba(255,255,255,.5);border-radius:1.5rem;border:1px solid rgba(31,31,31,.12)}
+.login-card h2{font-family:Cormorant Garamond,serif;font-size:1.5rem;margin:0 0 .5rem}
+.login-card p{font-size:.85rem;color:var(--muted);margin:0 0 1.5rem}
+.login-form{display:flex;flex-direction:column;gap:.75rem}
+.login-input{padding:.75rem 1rem;border-radius:.5rem;border:1px solid rgba(31,31,31,.2);background:var(--paper);color:var(--ink);font-size:1rem;text-align:center}
+.login-input:focus{outline:none;border-color:var(--olive)}
+.login-btn{padding:.75rem;border-radius:.5rem;border:none;background:var(--ink);color:var(--paper);font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s}
+.login-btn:hover{background:#333}
+.login-error{font-size:.8rem;color:#c44;margin:0;min-height:1.2em}
+@media(max-width:540px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login">
+  <div class="login-card">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--olive)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:.5rem"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <h2>Enter Password</h2>
+    <p>Restricted area. Enter the admin password to manage images.</p>
+    <form class="login-form" id="loginForm">
+      <input type="password" class="login-input" id="loginPassword" placeholder="Admin password" autocomplete="off" />
+      <button type="submit" class="login-btn">Unlock</button>
+      <p class="login-error" id="loginError"></p>
+    </form>
+    <a href="../" style="display:inline-block;margin-top:1rem;font-size:.8rem;color:var(--muted)">← Back to site</a>
+  </div>
+</div>
+
+<div id="adminApp" style="display:none">
+  <div class="header">
+    <div class="tabs">
+      <a href="." class="tab active">Images</a>
+      <a href="text.html" class="tab">Text</a>
+    </div>
+    <h1>Image Manager</h1>
+    <p>Upload images from your computer (auto-resized to 1200px) or paste any URL.</p>
+  </div>
+  <div class="container" id="adminContent"></div>
+</div>
+
+<script>
+const STORAGE_KEY='aa-custom-images';
+const PW_HASH='YXZpdDIwMjQ=';
+const AUTH_KEY='aa-admin-auth';
+
+(function(){if(sessionStorage.getItem(AUTH_KEY)){document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display=''}document.getElementById('loginForm').addEventListener('submit',function(e){e.preventDefault();var pw=document.getElementById('loginPassword').value;if(btoa(pw)===PW_HASH){sessionStorage.setItem(AUTH_KEY,'1');document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display='';render()}else{document.getElementById('loginError').textContent='Incorrect password.'}})})();
+
+const groups=[{name:'Hero',items:[{key:'portrait',label:'Portrait Photo',src:'images/505383798_10234027599329754_8249245958977938540_n.jpg'}]},{name:'Collection Cards',items:[{key:'card-01',label:'Field Relics',src:'images/30714447_10214175829967927_165775283675201536_n.jpg'},{key:'card-02',label:'Personal Objects',src:'images/509907537_9798865930212242_4053852646581686902_n.jpg'},{key:'card-03',label:'Museum Exhibits',src:'images/467490331_10231718808091416_7415891893858139362_n.jpg'},{key:'card-04',label:'Mechanical Remains',src:'images/467595565_10231718808171418_3462304517268544010_n.jpg'},{key:'card-05',label:'Archive Encounters',src:'images/467524642_10231715525409351_4612654496623592331_n.jpg'},{key:'card-06',label:'Battlefield Walks',src:'images/467659712_10231716665877862_576293277394653817_n.jpg'}]},{name:'Story Section',items:[{key:'story-image',label:'Museum Space',src:'images/466930999_18335865004146368_7575377668775702294_n.jpg'}]}];
+
+function loadSaved(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}}catch{return{}}}
+function saveAll(d){localStorage.setItem(STORAGE_KEY,JSON.stringify(d))}
+function getSrc(item,d){return d[item.key]||item.src}
+
+function render(){var d=loadSaved(),app=document.getElementById('adminContent');if(!app)return;var html='';for(var g=0;g<groups.length;g++){var group=groups[g];html+='<div class="group"><h2 class="group-title">'+group.name+'</h2><div class="grid">';for(var i=0;i<group.items.length;i++){var item=group.items[i],url=getSrc(item,d),isCustom=item.key in d;html+='<div class="card" data-key="'+item.key+'"><div class="preview"><img src="'+url+'" alt="'+item.label+'" loading="lazy" onerror="this.style.display=\'none\'"></div><div class="info"><strong>'+item.label+'</strong><span class="key">'+item.key+'</span></div><div class="row"><input type="text" class="input" value="'+url+'" placeholder="Paste image URL..."><label class="upload-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><input type="file" accept="image/*" class="file-input"></label></div><div class="actions"><button class="btn btn-save">Save</button><span class="badge '+(isCustom?'':'badge-default')+'">'+(isCustom?'Custom':'Default')+'</span></div></div>'}html+='</div></div>'}html+='<div class="footer"><button class="btn btn-reset" id="resetAll">Reset All to Defaults</button><p>Changes stored in your browser (localStorage). Persist until cleared.</p></div>';app.innerHTML=html;
+
+document.querySelectorAll('.card').forEach(function(card){var key=card.dataset.key,input=card.querySelector('.input'),saveBtn=card.querySelector('.btn-save'),badge=card.querySelector('.badge'),fileInput=card.querySelector('.file-input');function setCustom(url){var d=loadSaved();d[key]=url;saveAll(d);card.querySelector('.preview img').src=url;card.querySelector('.preview img').style.display='';badge.textContent='Custom';badge.className='badge'}
+saveBtn.addEventListener('click',function(){var url=input.value.trim();if(url)setCustom(url)});input.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();saveBtn.click()}});fileInput.addEventListener('change',function(){var file=fileInput.files[0];if(!file||!file.type.startsWith('image/'))return;if(file.size>20*1024*1024){alert('Image too large. Max 20MB.');return}
+var reader=new FileReader();reader.onload=function(e){var img=new Image();img.onload=function(){var w=img.width,h=img.height,M=1200;if(w>M){h=Math.round(h*M/w);w=M}
+var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);var resized=c.toDataURL('image/jpeg',.85);input.value=resized;setCustom(resized);fileInput.value=''};img.onerror=function(){alert('Failed to process image.')};img.src=e.target.result};reader.readAsDataURL(file)})});document.getElementById('resetAll').addEventListener('click',function(){if(confirm('Reset all images to defaults?')){localStorage.removeItem(STORAGE_KEY);render()}})}
+if(sessionStorage.getItem(AUTH_KEY)){render()}
+</script>
+</body>
+</html>
