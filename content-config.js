@@ -1,5 +1,21 @@
 window.CONTENT_CONFIG = {
   storageKey: "homepage-content-v1",
+  layoutStorageKey: "homepage-layout-v1",
+  heroStorageKey: "homepage-hero-grid-v1",
+  gridStorageKey: "homepage-news-grid-v1",
+  defaultHeroBoxes: [
+    { id: "hero-1", section: "NORTHEAST", title: "Preserving the memory of the Battle of Imphal.", summary: "A private archive of living history from Manipur's wartime landscape.", image: "images/505383798_10234027599329754_8249245958977938540_n.jpg", alt: "Arambam Angamba portrait" },
+    { id: "hero-2", section: "ARCHIVE", title: "From object to evidence. From evidence to story.", summary: "Each artifact is treated not as decoration, but as a witness.", image: "images/466930999_18335865004146368_7575377668775702294_n.jpg", alt: "Museum space" },
+    { id: "hero-3", section: "COLLECTION", title: "Relics displayed with restraint, dignity and context.", summary: "Recovered metal, equipment and wartime traces from historic ground.", image: "images/30714447_10214175829967927_165775283675201536_n.jpg", alt: "Field relics" }
+  ],
+  defaultGridBoxes: [
+    { id: "grid-1", section: "FIELD RELICS", title: "Recovered metal and wartime traces", summary: "Equipment and artifacts recovered from the Imphal battlefield.", image: "images/30714447_10214175829967927_165775283675201536_n.jpg", alt: "Field relics" },
+    { id: "grid-2", section: "PERSONAL OBJECTS", title: "Small objects, large human stories", summary: "Personal items that carry the weight of individual experiences.", image: "images/509907537_9798865930212242_4053852646581686902_n.jpg", alt: "Personal objects" },
+    { id: "grid-3", section: "MUSEUM EXHIBITS", title: "Uniforms and interpreted material culture", summary: "Displays that contextualize the wartime experience.", image: "images/467490331_10231718808091416_7415891893858139362_n.jpg", alt: "Museum exhibits" },
+    { id: "grid-4", section: "MECHANICAL REMAINS", title: "Fragments preserved as testimony", summary: "Mechanical remnants that speak to the scale of conflict.", image: "images/467595565_10231718808171418_3462304517268544010_n.jpg", alt: "Mechanical remains" },
+    { id: "grid-5", section: "ARCHIVE ENCOUNTERS", title: "Keeping memory alive", summary: "Visitors, researchers and storytellers engaging with history.", image: "images/467524642_10231715525409351_4612654496623592331_n.jpg", alt: "Visitors" },
+    { id: "grid-6", section: "BATTLEFIELD WALKS", title: "Guided trails through history", summary: "Walking the terrain where history remains present.", image: "images/467659712_10231716665877862_576293277394653817_n.jpg", alt: "Battlefield walks" }
+  ],
   fields: [
     ["brand-title", "[data-text-key='brand-title']", "Brand Title", "text"],
     ["brand-subtitle", "[data-text-key='brand-subtitle']", "Brand Subtitle", "text"],
