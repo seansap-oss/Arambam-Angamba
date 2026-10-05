@@ -1,0 +1,159 @@
+{
+  "title": "Battle of Imphal 1944",
+  "heroTitle": "Building spaces.\nPreserving stories.",
+  "heroSubtitle": "From museum spaces to journeys through Northeast India’s wartime past.",
+  "eyebrow": "HERITAGE · PEOPLE · JOURNEYS",
+  "bioTitle": "A lifelong curiosity.\nA story still unfolding.",
+  "bioParagraphs": [
+    "Some paths begin with a profession and quietly evolve into a life’s calling. A civil engineer by training, he brings technical precision and thoughtful craftsmanship to building and restoring museum spaces—creating environments where memory and heritage truly resonate.",
+    "Yet his dedication reaches well beyond exhibition galleries. You will often find him tracing forgotten mountain trails, documenting wartime relics, and sitting with local communities to listen to the living histories they carry. Across Manipur and Arunachal Pradesh, his field research preserves overlooked chapters of the past, while his guided battlefield walks through Manipur and Kohima bring travelers closer to the region’s profound historical ties with Japan.",
+    "Curiosity anchors everything he undertakes. Currently deepening his craft through university museology studies, he collaborates closely with emerging preservationists. Every quiet trail, preserved artifact, and shared oral history invites another meaningful conversation—bridging the gap between the echoes of yesterday and today."
+  ],
+  "portrait": "/images/505383798_10234027599329754_8249245958977938540_n.jpg",
+  "interval": 4,
+  "slides": [
+    {
+      "id": "hills",
+      "type": "image",
+      "src": "/images/manipur-hills.webp",
+      "caption": "Manipur, through the seasons",
+      "alt": "Illustrative misty hills and valleys of Northeast India"
+    },
+    {
+      "id": "objects",
+      "type": "image",
+      "src": "/images/artifacts.webp",
+      "caption": "Objects, memories and the stories between",
+      "alt": "Illustrative wartime artifacts in a museum collection"
+    },
+    {
+      "id": "research",
+      "type": "image",
+      "src": "/images/466930999_18335865004146368_7575377668775702294_n.jpg",
+      "caption": "A continuing journey of discovery",
+      "alt": "Museum work from the original archive"
+    }
+  ],
+  "projects": [
+    {
+      "place": "Manipur",
+      "text": "Museum construction and renovation; work connected with the INA Museum, Moirang, and Maibam Lotpa Ching War Memorial."
+    },
+    {
+      "place": "Arunachal Pradesh",
+      "text": "Museum and heritage projects across the region, bringing spaces, objects and their stories together."
+    },
+    {
+      "place": "Kohima",
+      "text": "Guided journeys through wartime history, memorials and the landscapes of remembrance."
+    }
+  ],
+  "gallery": [
+    {
+      "id": "g1",
+      "src": "/images/466930999_18335865004146368_7575377668775702294_n.jpg",
+      "title": "Museum spaces",
+      "category": "Museums",
+      "alt": "Working inside a museum space"
+    },
+    {
+      "id": "g2",
+      "src": "/images/509907537_9798865930212242_4053852646581686902_n.jpg",
+      "title": "Objects & memories",
+      "category": "Artifacts",
+      "alt": "Wartime objects held for inspection"
+    },
+    {
+      "id": "g3",
+      "src": "/images/467659712_10231716665877862_576293277394653817_n.jpg",
+      "title": "Trails & fieldwork",
+      "category": "Journeys",
+      "alt": "Walking a woodland trail"
+    },
+    {
+      "id": "field-research-team",
+      "src": "/images/50881521_10216238443051965_1724384916432486400_n.jpg",
+      "title": "Field research on a forgotten trail",
+      "category": "Journeys",
+      "alt": "Two researchers working on a wooded hillside during fieldwork"
+    },
+    {
+      "id": "recovered-cartridge",
+      "src": "/images/50658288_10216238442411949_6068204196954374144_n.jpg",
+      "title": "A small find from the field",
+      "category": "Artifacts",
+      "alt": "A small cylindrical metal object held during field research"
+    },
+    {
+      "id": "museum-exchange",
+      "src": "/images/44865133_1980367885380909_7410043892524908544_n.jpg",
+      "title": "Museum exchange and shared remembrance",
+      "category": "Museums",
+      "alt": "A group gathered inside a museum gallery with wartime displays"
+    },
+    {
+      "id": "field-metal-find",
+      "src": "/images/51270193_10216238439491876_6400685183070109696_n.jpg",
+      "title": "A recovered metal object under examination",
+      "category": "Artifacts",
+      "alt": "A small circular metal object held for close inspection"
+    },
+    {
+      "id": "aviation-display",
+      "src": "/images/467490331_10231718808091416_7415891893858139362_n.jpg",
+      "title": "Aviation history on display",
+      "category": "Museums",
+      "alt": "A preserved aviation uniform displayed inside a museum"
+    },
+    {
+      "id": "surface-find",
+      "src": "/images/51149942_10216238440851910_4912581226637819904_n.jpg",
+      "title": "Surface find during a field survey",
+      "category": "Artifacts",
+      "alt": "A small weathered object on the ground beside a pen for scale"
+    },
+    {
+      "id": "field-finds",
+      "src": "/images/50843348_10216238441931937_1046214897563598848_n.jpg",
+      "title": "Field finds and careful documentation",
+      "category": "Artifacts",
+      "alt": "Two small field finds held during documentation work in woodland"
+    },
+    {
+      "id": "artillery-collection",
+      "src": "/images/30714447_10214175829967927_165775283675201536_n.jpg",
+      "title": "Wartime artillery preserved in the collection",
+      "category": "Artifacts",
+      "alt": "A preserved artillery piece photographed outdoors"
+    },
+    {
+      "id": "mechanical-relics",
+      "src": "/images/467625997_10231732475273087_1018835472765765611_n.jpg",
+      "title": "Recovered mechanical relics",
+      "category": "Artifacts",
+      "alt": "Several weathered mechanical components arranged for documentation"
+    }
+  ],
+  "tours": [
+    {
+      "id": "manipur",
+      "name": "Manipur heritage journey",
+      "description": "Explore museum spaces, wartime stories and places of remembrance with your local guide."
+    },
+    {
+      "id": "kohima",
+      "name": "Kohima remembrance journey",
+      "description": "A guided introduction to Kohima’s wartime history and memorial landscapes."
+    },
+    {
+      "id": "custom",
+      "name": "A journey of your own",
+      "description": "Tell us about your interests and we’ll discuss a personal itinerary."
+    }
+  ],
+  "blockedDates": [],
+  "donationUrl": "",
+  "donationText": "Help sustain field research, thoughtful preservation and the sharing of local history. Every contribution begins with a shared belief: these stories deserve a future.",
+  "contactEmail": "",
+  "imageNote": "Portrait and archive photographs come from the original collection. The landscape and still-life hero images are illustrative."
+}
