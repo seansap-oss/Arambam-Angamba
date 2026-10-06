@@ -29,8 +29,11 @@ def init():
         CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, expires INTEGER NOT NULL);
         CREATE TABLE IF NOT EXISTS bookings (id TEXT PRIMARY KEY, name TEXT, email TEXT, tour TEXT, date TEXT, guests INTEGER, message TEXT, status TEXT, created TEXT);
-        CREATE TABLE IF NOT EXISTS guestbook (id TEXT PRIMARY KEY, name TEXT, country TEXT, message TEXT, status TEXT, created TEXT);
+        CREATE TABLE IF NOT EXISTS guestbook (id TEXT PRIMARY KEY, name TEXT, country TEXT, email TEXT, image_url TEXT, message TEXT, status TEXT, created TEXT);
         ''')
+        cols={r[1] for r in c.execute('PRAGMA table_info(guestbook)')}
+        if 'email' not in cols: c.execute('ALTER TABLE guestbook ADD COLUMN email TEXT')
+        if 'image_url' not in cols: c.execute('ALTER TABLE guestbook ADD COLUMN image_url TEXT')
         if not c.execute("SELECT 1 FROM settings WHERE key='content'").fetchone():
             c.execute('INSERT INTO settings VALUES (?,?)', ('content', (ROOT/'server/defaults.json').read_text()))
         if not c.execute("SELECT 1 FROM settings WHERE key='admin'").fetchone():
@@ -53,12 +56,14 @@ def safe_url(value, local=True):
 def validate_content(d):
     base=json.loads((ROOT/'server/defaults.json').read_text())
     if set(d)!=set(base): raise ValueError('Invalid content fields.')
-    for key in ['title','heroTitle','heroSubtitle','eyebrow','bioTitle','donationText','contactEmail','imageNote']:
+    for key in ['title','heroTitle','heroSubtitle','eyebrow','bioTitle','donationText','contactEmail','imageNote','donationCardUrl','donationUpiUrl','tourDepositUrl','guestbookTitle','guestbookIntro']:
         if not isinstance(d[key],str) or len(d[key])>5000: raise ValueError('Invalid text field.')
     if not isinstance(d['bioParagraphs'],list) or not 1<=len(d['bioParagraphs'])<=10 or any(not isinstance(p,str) or len(p)>10000 for p in d['bioParagraphs']): raise ValueError('Invalid biography.')
     if d['interval'] not in [3,4,6,8]: raise ValueError('Choose a supported slide interval.')
     if not safe_url(d['portrait']): raise ValueError('Invalid portrait URL.')
     if d['donationUrl'] and not safe_url(d['donationUrl'],False): raise ValueError('Donation link must use HTTPS.')
+    for key in ['donationCardUrl','donationUpiUrl','tourDepositUrl']:
+        if d.get(key) and not safe_url(d[key],False): raise ValueError('Payment links must use HTTPS.')
     if not isinstance(d['slides'],list) or not 1<=len(d['slides'])<=100: raise ValueError('Keep at least one hero slide.')
     for s in d['slides']:
         if s.get('type') not in ['image','video','youtube'] or not safe_url(s.get('src')): raise ValueError('Invalid slide.')
@@ -108,7 +113,7 @@ class Handler(BaseHTTPRequestHandler):
                 booked=[r[0] for r in c.execute("SELECT date FROM bookings WHERE status='confirmed'")]
                 return self.reply(200,{'content':d,'unavailable':list(set(d['blockedDates']+booked)),'today':today()})
             if path=='/api/guestbook':
-                return self.reply(200,{'entries':[dict(r) for r in c.execute("SELECT id,name,country,message,created FROM guestbook WHERE status='approved' ORDER BY created DESC LIMIT 100")]})
+                return self.reply(200,{'entries':[dict(r) for r in c.execute("SELECT id,name,country,message,image_url,created FROM guestbook WHERE status='approved' ORDER BY created DESC LIMIT 100")]})
             if path=='/api/session': return self.reply(200,{'authenticated':self.authed(c)})
             if path=='/api/admin':
                 if not self.authed(c): return self.reply(401,{'error':'Please sign in.'})
@@ -171,8 +176,22 @@ class Handler(BaseHTTPRequestHandler):
                 if not 2<=len(name)<=100 or len(message)>3000: raise ValueError()
                 uid=secrets.token_hex(6); created=datetime.now(ZoneInfo('Asia/Kolkata')).isoformat()
                 if path=='/api/guestbook':
-                    if not 5<=len(message)<=2000 or len(str(d.get('country','')))>100: raise ValueError()
-                    c.execute('INSERT INTO guestbook VALUES (?,?,?,?,?,?)',(uid,name,d.get('country',''),message,'pending',created))
+                    country=str(d.get('country','')).strip(); email=str(d.get('email','')).strip()
+                    if not 5<=len(message)<=2000 or len(country)>100: raise ValueError()
+                    if not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+',email) or len(email)>254: return self.reply(400,{'error':'Enter a valid email address.'})
+                    stored=''; image_data=str(d.get('imageData','')); image_url=str(d.get('imageUrl','')).strip()
+                    if image_data:
+                        m=re.fullmatch(r'data:(image/(?:jpeg|gif));base64,([A-Za-z0-9+/=]+)',image_data)
+                        if not m:return self.reply(400,{'error':'Use a JPEG or GIF photo.'})
+                        raw=base64.b64decode(m.group(2),validate=True)
+                        if not 0<len(raw)<=1024*1024:return self.reply(400,{'error':'Guestbook photos must be 1 MB or smaller.'})
+                        mime=m.group(1); valid=(mime=='image/jpeg' and raw.startswith(b'\xff\xd8\xff')) or (mime=='image/gif' and raw[:6] in (b'GIF87a',b'GIF89a'))
+                        if not valid:return self.reply(400,{'error':'Use a valid JPEG or GIF photo.'})
+                        filename=secrets.token_hex(16)+('.jpg' if mime=='image/jpeg' else '.gif');(UPLOADS/filename).write_bytes(raw);stored='/uploads/'+filename
+                    elif image_url:
+                        if not safe_url(image_url,False):return self.reply(400,{'error':'Image URL must use HTTPS.'})
+                        stored=image_url
+                    c.execute('INSERT INTO guestbook (id,name,country,email,image_url,message,status,created) VALUES (?,?,?,?,?,?,?,?)',(uid,name,country,email,stored or None,message,'pending',created))
                 else:
                     cfg=content(c); day=d.get('date',''); date.fromisoformat(day)
                     if day<today() or day in cfg['blockedDates'] or c.execute("SELECT 1 FROM bookings WHERE date=? AND status='confirmed'",(day,)).fetchone(): return self.reply(409,{'error':'That date is unavailable. Please choose another day.'})
@@ -217,6 +236,7 @@ class Handler(BaseHTTPRequestHandler):
                 c.execute('UPDATE bookings SET status=? WHERE id=?',(d['status'],d['id']))
                 return self.reply(200,{'ok':True})
             if path=='/api/guestbook/status':
+                if d.get('status')=='deleted': c.execute('DELETE FROM guestbook WHERE id=?',(d.get('id'),)); return self.reply(200,{'ok':True})
                 if d.get('status') not in ['approved','pending','hidden']: raise ValueError()
                 c.execute('UPDATE guestbook SET status=? WHERE id=?',(d['status'],d.get('id')))
                 return self.reply(200,{'ok':True})

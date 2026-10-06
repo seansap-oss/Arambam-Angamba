@@ -167,5 +167,10 @@
   "donationUrl": "",
   "donationText": "Help sustain field research, thoughtful preservation and the sharing of local history. Every contribution begins with a shared belief: these stories deserve a future.",
   "contactEmail": "",
-  "imageNote": "Portrait and archive photographs come from the original collection. The landscape and still-life hero images are illustrative."
+  "imageNote": "Portrait and archive photographs come from the original collection. The landscape and still-life hero images are illustrative.",
+  "donationCardUrl": "",
+  "donationUpiUrl": "",
+  "tourDepositUrl": "",
+  "guestbookTitle": "Messages from around the world",
+  "guestbookIntro": "Visitors, researchers and friends from around the world share their memories, photographs and reflections here."
 }
