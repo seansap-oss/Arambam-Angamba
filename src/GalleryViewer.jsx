@@ -76,7 +76,7 @@ export function GalleryViewer({items,index,onIndex,onClose,lang='en'}){
   return <div className="gallery-viewer" role="dialog" aria-modal="true" aria-label={item.title}>
     <header className="gallery-viewer-top"><div><span>{lang==='ja'?'ギャラリー':'GALLERY'}</span><strong>{item.title}</strong></div><button className="gallery-viewer-close" onClick={onClose} aria-label={text.close}><X/></button></header>
     <div className="gallery-viewer-stage" onTouchStart={e=>touch.current=e.touches[0].clientX} onTouchEnd={e=>{if(touch.current!==null){const d=e.changedTouches[0].clientX-touch.current;if(Math.abs(d)>45)(d<0?next:previous)();touch.current=null}}}>
-      {type==='image'&&<img src={item.src} alt={item.alt||item.title}/>} 
+      {type==='image'&&<div className="gallery-viewer-image" role="img" aria-label={item.alt||item.title} style={{backgroundImage:`url("${item.src}")`}}/>} 
       {type==='video'&&<video ref={video} src={item.src} playsInline muted={muted} controls={!auto} preload="metadata" onEnded={()=>{if(auto)next()}} onError={()=>{setError(lang==='ja'?'この動画を再生できません。':'This video could not be played.');setAuto(false)}}/>}
       {type==='youtube'&&<GalleryYouTube key={item.id} src={item.src} playing={auto} muted={muted} onEnd={()=>{if(auto)next()}} onBlocked={m=>{setError(m);setAuto(false)}} lang={lang}/>} 
       {error&&<button className="gallery-video-retry" onClick={()=>{setError('');setAuto(true);video.current?.play().catch(()=>{})}}><Play weight="fill"/>{error}</button>}
