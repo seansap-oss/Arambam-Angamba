@@ -64,7 +64,10 @@ def validate_content(d):
         if s.get('type') not in ['image','video','youtube'] or not safe_url(s.get('src')): raise ValueError('Invalid slide.')
         if s['type']=='youtube' and urlparse(s['src']).hostname not in ['youtube.com','www.youtube.com','youtu.be','www.youtube-nocookie.com']: raise ValueError('Use a YouTube link for this slide.')
     if not isinstance(d['gallery'],list) or len(d['gallery'])>300: raise ValueError('Invalid gallery.')
-    if any(not safe_url(g.get('src')) for g in d['gallery']): raise ValueError('Invalid gallery image.')
+    for g in d['gallery']:
+        media_type=g.get('type','image')
+        if media_type not in ['image','video','youtube'] or not safe_url(g.get('src')): raise ValueError('Invalid gallery media.')
+        if media_type=='youtube' and urlparse(g['src']).hostname not in ['youtube.com','www.youtube.com','youtu.be','www.youtube-nocookie.com']: raise ValueError('Use a YouTube link for gallery video.')
     if not isinstance(d['tours'],list) or not 1<=len(d['tours'])<=30 or any(not t.get('id') or not t.get('name') for t in d['tours']): raise ValueError('Keep at least one named tour.')
     if not isinstance(d['projects'],list) or len(d['projects'])>30: raise ValueError('Invalid projects.')
     if not isinstance(d['blockedDates'],list) or len(d['blockedDates'])>2000: raise ValueError('Invalid dates.')

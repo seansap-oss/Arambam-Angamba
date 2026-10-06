@@ -100,27 +100,28 @@ const storyEn = [
 ];
 
 const galleryAdditions = [
-  {id:'field-research-team',src:'/images/50881521_10216238443051965_1724384916432486400_n.jpg',title:'Field research on a forgotten trail',category:'Journeys',alt:'Two researchers working on a wooded hillside during fieldwork'},
-  {id:'recovered-cartridge',src:'/images/50658288_10216238442411949_6068204196954374144_n.jpg',title:'A small find from the field',category:'Artifacts',alt:'A small cylindrical metal object held during field research'},
-  {id:'museum-exchange',src:'/images/44865133_1980367885380909_7410043892524908544_n.jpg',title:'Museum exchange and shared remembrance',category:'Museums',alt:'A group gathered inside a museum gallery with wartime displays'},
-  {id:'field-metal-find',src:'/images/51270193_10216238439491876_6400685183070109696_n.jpg',title:'A recovered metal object under examination',category:'Artifacts',alt:'A small circular metal object held for close inspection'},
-  {id:'aviation-display',src:'/images/467490331_10231718808091416_7415891893858139362_n.jpg',title:'Aviation history on display',category:'Museums',alt:'A preserved aviation uniform displayed inside a museum'},
-  {id:'surface-find',src:'/images/51149942_10216238440851910_4912581226637819904_n.jpg',title:'Surface find during a field survey',category:'Artifacts',alt:'A small weathered object on the ground beside a pen for scale'},
-  {id:'field-finds',src:'/images/50843348_10216238441931937_1046214897563598848_n.jpg',title:'Field finds and careful documentation',category:'Artifacts',alt:'Two small field finds held during documentation work in woodland'},
-  {id:'artillery-collection',src:'/images/30714447_10214175829967927_165775283675201536_n.jpg',title:'Wartime artillery preserved in the collection',category:'Artifacts',alt:'A preserved artillery piece photographed outdoors'},
-  {id:'mechanical-relics',src:'/images/467625997_10231732475273087_1018835472765765611_n.jpg',title:'Recovered mechanical relics',category:'Artifacts',alt:'Several weathered mechanical components arranged for documentation'}
+  {id:'field-research-team',type:'image',src:'/images/50881521_10216238443051965_1724384916432486400_n.jpg',title:'Field research on a forgotten trail',category:'Journeys',alt:'Two researchers working on a wooded hillside during fieldwork'},
+  {id:'recovered-cartridge',type:'image',src:'/images/50658288_10216238442411949_6068204196954374144_n.jpg',title:'A small find from the field',category:'Artifacts',alt:'A small cylindrical metal object held during field research'},
+  {id:'museum-exchange',type:'image',src:'/images/44865133_1980367885380909_7410043892524908544_n.jpg',title:'Museum exchange and shared remembrance',category:'Museums',alt:'A group gathered inside a museum gallery with wartime displays'},
+  {id:'field-metal-find',type:'image',src:'/images/51270193_10216238439491876_6400685183070109696_n.jpg',title:'A recovered metal object under examination',category:'Artifacts',alt:'A small circular metal object held for close inspection'},
+  {id:'aviation-display',type:'image',src:'/images/467490331_10231718808091416_7415891893858139362_n.jpg',title:'Aviation history on display',category:'Museums',alt:'A preserved aviation uniform displayed inside a museum'},
+  {id:'surface-find',type:'image',src:'/images/51149942_10216238440851910_4912581226637819904_n.jpg',title:'Surface find during a field survey',category:'Artifacts',alt:'A small weathered object on the ground beside a pen for scale'},
+  {id:'field-finds',type:'image',src:'/images/50843348_10216238441931937_1046214897563598848_n.jpg',title:'Field finds and careful documentation',category:'Artifacts',alt:'Two small field finds held during documentation work in woodland'},
+  {id:'artillery-collection',type:'image',src:'/images/30714447_10214175829967927_165775283675201536_n.jpg',title:'Wartime artillery preserved in the collection',category:'Artifacts',alt:'A preserved artillery piece photographed outdoors'},
+  {id:'mechanical-relics',type:'image',src:'/images/467625997_10231732475273087_1018835472765765611_n.jpg',title:'Recovered mechanical relics',category:'Artifacts',alt:'Several weathered mechanical components arranged for documentation'}
 ];
 
 function withLatestStoryAndGallery(content){
   const existing=new Set((content.gallery||[]).map(item=>item.id));
-  return {...content,bioParagraphs:storyEn,gallery:[...(content.gallery||[]),...galleryAdditions.filter(item=>!existing.has(item.id))]};
+  return {...content,bioParagraphs:storyEn,gallery:[...(content.gallery||[]).map(item=>({...item,type:item.type||'image'})),...galleryAdditions.filter(item=>!existing.has(item.id))]};
 }
 
 export function localizeContent(content,lang){
   const latest=withLatestStoryAndGallery(content);
-  if(lang!=='ja') return latest;
+  const english={...latest,heroSubtitle:(latest.heroSubtitle||'').replaceAll('’',"'")};
+  if(lang!=='ja') return english;
   return {
-    ...latest,
+    ...english,
     heroTitle:contentJa.heroTitle,heroSubtitle:contentJa.heroSubtitle,eyebrow:contentJa.eyebrow,bioTitle:contentJa.bioTitle,bioParagraphs:contentJa.bioParagraphs,
     projects:latest.projects.map((p,i)=>({...p,...contentJa.projects[i]})),
     gallery:latest.gallery.map((g,i)=>({...g,...(contentJa.gallery[i]||{})})),

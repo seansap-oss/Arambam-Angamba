@@ -11,7 +11,7 @@ function loadYT(){
   });
   return ytPromise;
 }
-function YouTube({src,playing,muted,onEnd,onBlocked}){
+function YouTube({src,playing,muted,onEnd,onBlocked,lang='en'}){
   const el=useRef(null),player=useRef(null),current=useRef({playing,muted,onEnd,onBlocked});
   current.current={playing,muted,onEnd,onBlocked};
   useEffect(()=>{
@@ -48,7 +48,7 @@ export function Hero({content,lang="en",t}){
     <div className="hero-copy"><div className="eyebrow">{content.eyebrow}<span/></div><h1>{content.heroTitle}</h1><p className="hero-intro">{content.heroSubtitle}</p><div className="hero-links"><a className="button" href="#tours">{lang==='ja'?'ツアーを見る':'Explore tours'} <ArrowUpRight/></a><a className="text-link" href="#story">{lang==='ja'?'ストーリーを読む':'Discover the story'}</a></div><div className="hero-note">{lang==='ja'?<>風景にも<br/>記憶が宿る。</>:<>LANDSCAPES HOLD<br/>MEMORIES TOO.</>}<span/></div><img className="botanical" src="/images/botanical.webp" alt=""/></div>
     <div className="hero-media" role="region" aria-label={lang==='ja'?'注目ストーリーのスライドショー':'Featured stories slideshow'} onKeyDown={e=>{if(e.target.tagName==='SELECT')return;if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1);if(e.key==='Escape')setMenu(false)}}>
       <div className="hero-stage" onTouchStart={e=>touch.current=e.touches[0].clientX} onTouchEnd={e=>{if(touch.current!==null){const d=e.changedTouches[0].clientX-touch.current;if(Math.abs(d)>45)go(d<0?1:-1);touch.current=null}}}>
-        {slide.type==='image'?<img className="hero-photo" key={slide.id} src={slide.src} alt={slide.alt||slide.caption} fetchPriority="high"/>:slide.type==='video'?<video ref={video} src={slide.src} controls={started} playsInline muted={muted} preload="metadata" onEnded={()=>{if(auto)next()}} onError={()=>{setError(lang==='ja'?'この動画は利用できません。次のスライドをお試しください。':'This video is unavailable. Please try the next slide.');setAuto(false)}}/>:<YouTube key={slide.id} src={slide.src} playing={started&&active} muted={muted} onEnd={()=>{if(auto)next()}} onBlocked={m=>{setError(m);setAuto(false)}}/>}
+        {slide.type==='image'?<img className="hero-photo" key={slide.id} src={slide.src} alt={slide.alt||slide.caption} fetchPriority="high"/>:slide.type==='video'?<video ref={video} src={slide.src} controls={started} playsInline muted={muted} preload="metadata" onEnded={()=>{if(auto)next()}} onError={()=>{setError(lang==='ja'?'この動画は利用できません。次のスライドをお試しください。':'This video is unavailable. Please try the next slide.');setAuto(false)}}/>:<YouTube key={slide.id} src={slide.src} playing={started&&active} muted={muted} onEnd={()=>{if(auto)next()}} onBlocked={m=>{setError(m);setAuto(false)}} lang={lang}/>}
         {!isVideo&&index===0&&slides.length>1&&<button className="artifact-inset" aria-label="View the next featured story" onClick={()=>go(1)}><img src={content.gallery.find(g=>g.category==='Artifacts')?.src||slides[1].src} alt={lang==='ja'?'遺物と記憶':'Objects and memories'}/><span>{lang==='ja'?'遺物 · 人々 · 旅':'OBJECTS · PEOPLE · JOURNEYS'}</span></button>}
         {isVideo&&(!started||error)&&<div className="video-overlay"><button className="video-play" aria-label="Play video now" onClick={startVideo}><Play weight="fill"/></button><p>{error||(auto?(lang==='ja'?`動画は${countdown}秒後に開始 · ミュート`:`Video starts in ${countdown}s · Muted`):(lang==='ja'?'動画は一時停止中 · タップして再生':'Video paused · Tap to play'))}</p></div>}
       </div>

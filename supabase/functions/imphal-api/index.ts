@@ -21,7 +21,8 @@ function validateContent(d:any){
  requireValue([3,4,6,8].includes(d.interval));requireValue(safeURL(d.portrait));requireValue(!d.donationUrl||safeURL(d.donationUrl,false),'Donation link must use HTTPS.');
  requireValue(Array.isArray(d.slides)&&d.slides.length>0&&d.slides.length<=100,'Keep at least one hero slide.');
  for(const s of d.slides){requireValue(['image','video','youtube'].includes(s.type)&&safeURL(s.src));if(s.type==='youtube')requireValue(['youtube.com','www.youtube.com','youtu.be','www.youtube-nocookie.com'].includes(new URL(s.src).hostname),'Use a YouTube URL.');}
- requireValue(Array.isArray(d.gallery)&&d.gallery.length<=300&&d.gallery.every((g:any)=>safeURL(g.src)));
+ requireValue(Array.isArray(d.gallery)&&d.gallery.length<=300);
+ for(const g of d.gallery){const type=g.type||'image';requireValue(['image','video','youtube'].includes(type)&&safeURL(g.src));if(type==='youtube')requireValue(['youtube.com','www.youtube.com','youtu.be','www.youtube-nocookie.com'].includes(new URL(g.src).hostname),'Use a YouTube URL for gallery video.');}
  requireValue(Array.isArray(d.tours)&&d.tours.length>0&&d.tours.length<=30&&d.tours.every((t:any)=>typeof t.id==='string'&&typeof t.name==='string'&&t.id&&t.name));
  requireValue(Array.isArray(d.projects)&&d.projects.length<=30);requireValue(Array.isArray(d.blockedDates)&&d.blockedDates.length<=2000&&d.blockedDates.every(validDate));
  return d;

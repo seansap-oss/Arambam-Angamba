@@ -54,84 +54,96 @@
       "src": "/images/466930999_18335865004146368_7575377668775702294_n.jpg",
       "title": "Museum spaces",
       "category": "Museums",
-      "alt": "Working inside a museum space"
+      "alt": "Working inside a museum space",
+      "type": "image"
     },
     {
       "id": "g2",
       "src": "/images/509907537_9798865930212242_4053852646581686902_n.jpg",
       "title": "Objects & memories",
       "category": "Artifacts",
-      "alt": "Wartime objects held for inspection"
+      "alt": "Wartime objects held for inspection",
+      "type": "image"
     },
     {
       "id": "g3",
       "src": "/images/467659712_10231716665877862_576293277394653817_n.jpg",
       "title": "Trails & fieldwork",
       "category": "Journeys",
-      "alt": "Walking a woodland trail"
+      "alt": "Walking a woodland trail",
+      "type": "image"
     },
     {
       "id": "field-research-team",
       "src": "/images/50881521_10216238443051965_1724384916432486400_n.jpg",
       "title": "Field research on a forgotten trail",
       "category": "Journeys",
-      "alt": "Two researchers working on a wooded hillside during fieldwork"
+      "alt": "Two researchers working on a wooded hillside during fieldwork",
+      "type": "image"
     },
     {
       "id": "recovered-cartridge",
       "src": "/images/50658288_10216238442411949_6068204196954374144_n.jpg",
       "title": "A small find from the field",
       "category": "Artifacts",
-      "alt": "A small cylindrical metal object held during field research"
+      "alt": "A small cylindrical metal object held during field research",
+      "type": "image"
     },
     {
       "id": "museum-exchange",
       "src": "/images/44865133_1980367885380909_7410043892524908544_n.jpg",
       "title": "Museum exchange and shared remembrance",
       "category": "Museums",
-      "alt": "A group gathered inside a museum gallery with wartime displays"
+      "alt": "A group gathered inside a museum gallery with wartime displays",
+      "type": "image"
     },
     {
       "id": "field-metal-find",
       "src": "/images/51270193_10216238439491876_6400685183070109696_n.jpg",
       "title": "A recovered metal object under examination",
       "category": "Artifacts",
-      "alt": "A small circular metal object held for close inspection"
+      "alt": "A small circular metal object held for close inspection",
+      "type": "image"
     },
     {
       "id": "aviation-display",
       "src": "/images/467490331_10231718808091416_7415891893858139362_n.jpg",
       "title": "Aviation history on display",
       "category": "Museums",
-      "alt": "A preserved aviation uniform displayed inside a museum"
+      "alt": "A preserved aviation uniform displayed inside a museum",
+      "type": "image"
     },
     {
       "id": "surface-find",
       "src": "/images/51149942_10216238440851910_4912581226637819904_n.jpg",
       "title": "Surface find during a field survey",
       "category": "Artifacts",
-      "alt": "A small weathered object on the ground beside a pen for scale"
+      "alt": "A small weathered object on the ground beside a pen for scale",
+      "type": "image"
     },
     {
       "id": "field-finds",
       "src": "/images/50843348_10216238441931937_1046214897563598848_n.jpg",
       "title": "Field finds and careful documentation",
       "category": "Artifacts",
-      "alt": "Two small field finds held during documentation work in woodland"
+      "alt": "Two small field finds held during documentation work in woodland",
+      "type": "image"
     },
     {
       "id": "artillery-collection",
       "src": "/images/30714447_10214175829967927_165775283675201536_n.jpg",
       "title": "Wartime artillery preserved in the collection",
       "category": "Artifacts",
-      "alt": "A preserved artillery piece photographed outdoors"
+      "alt": "A preserved artillery piece photographed outdoors",
+      "type": "image"
     },
     {
       "id": "mechanical-relics",
       "src": "/images/467625997_10231732475273087_1018835472765765611_n.jpg",
       "title": "Recovered mechanical relics",
       "category": "Artifacts",
-      "alt": "Several weathered mechanical components arranged for documentation"
+      "alt": "Several weathered mechanical components arranged for documentation",
+      "type": "image"
     }
   ],
   "tours": [
